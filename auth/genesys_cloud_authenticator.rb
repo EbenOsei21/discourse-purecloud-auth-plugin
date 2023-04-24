@@ -1,4 +1,4 @@
-# require_dependency 'auth/oauth2_authenticator.rb'
+require_dependency 'omniauth-genesys-cloud.rb'
 
 GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
 
@@ -33,7 +33,7 @@ class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
                       	puts "Registering middleware for Genesys Cloud OAuth provider: " + @provider_name
                       	puts "Client ID: " + SiteSetting.genesys_cloud_client_id
 
-                        opts = env['omniauth.strategy'].options
+                        #opts = env['omniauth.strategy'].options
                         opts[:client_id] = SiteSetting.genesys_cloud_client_id
                         opts[:client_secret] = SiteSetting.genesys_cloud_client_secret
 
