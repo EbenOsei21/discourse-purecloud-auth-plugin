@@ -27,7 +27,7 @@ class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   	init_settings
 
     omniauth.provider :genesysCloud,
-                      name: @provider_name,
+                      name: name,
                       setup: 
                       lambda {|env|
                       	puts "Registering middleware for Genesys Cloud OAuth provider: " + @provider_name
@@ -58,6 +58,11 @@ class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
     }
 
     result
+  end
+
+  def basic_auth_header
+    "Basic " +
+      Base64.strict_encode64("#{SiteSetting.genesys_cloud_client_id}:#{SiteSetting.genesys_cloud_client_secret}")
   end
 
   def after_authenticate(auth)
