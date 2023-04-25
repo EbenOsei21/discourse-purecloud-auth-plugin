@@ -118,7 +118,7 @@ class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
     bearer_token = "Bearer #{token}"
     connection = Faraday.new { |f| f.adapter FinalDestination::FaradayAdapter }
     headers = { "Authorization" => bearer_token, "Accept" => "application/json" }
-    user_json_response = connection.run_request("get", user_json_url, nil, headers)
+    user_json_response = connection.run_request(:get, user_json_url, nil, headers)
 
     log("user_json_response: #{user_json_response.inspect}")
 
