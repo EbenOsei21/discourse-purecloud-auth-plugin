@@ -1,6 +1,6 @@
 require "omniauth/strategies/oauth2"
 
-class ::OmniAuth::Strategies::Oauth2Basic < ::OmniAuth::Strategies::OAuth2
+class ::OmniAuth::Strategies::GenesysCloud < ::OmniAuth::Strategies::OAuth2
   option :name, "genesysCloud"
 
   uid do
