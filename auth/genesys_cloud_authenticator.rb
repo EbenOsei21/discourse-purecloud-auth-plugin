@@ -8,7 +8,7 @@ class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   @region = "mypurecloud.com"
 
   def name
-    "genesysCloud"
+    "use1"
   end
 
   def enabled?
