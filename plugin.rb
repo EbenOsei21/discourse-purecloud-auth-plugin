@@ -17,7 +17,7 @@ require_relative 'auth/genesys_cloud_authenticator'
 # require_relative 'auth/genesys_cloud_apse2_authenticator'
 # require_relative 'auth/genesys_cloud_sae1_authenticator'
 
-require_relative 'omniauth-genesys-cloud'
+require_relative 'omniauth-genesys-cloud.rb'
 
 #puts can be found on the docker container in /var/www/discourse/log/unicorn.stdout.log
 puts 'Genesys Cloud - plugin loaded'
