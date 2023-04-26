@@ -1,9 +1,11 @@
 # require '../omniauth-genesys-cloud.rb'
 
-GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
+# GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
+
+GENESYS_PROD_ORG_ID = 8d6f6281-c096-4dab-b194-a6f1667d7dd4
 
 #https://github.com/discourse/discourse-oauth2-basic
-class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
+class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   @provider_name = "use1"
   @region = "mypurecloud.com"
 
@@ -44,74 +46,9 @@ class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
                       }
   end
 
-  # def json_walk(result, user_json, prop, custom_path: nil)
-  #   path = custom_path || SiteSetting.public_send("oauth2_json_#{prop}_path")
-  #   if path.present?
-  #     #this.[].that is the same as this.that, allows for both this[0].that and this.[0].that path styles
-  #     path = path.gsub(".[].", ".").gsub(".[", "[")
-  #     segments = parse_segments(path)
-  #     val = walk_path(user_json, segments)
-  #     result[prop] = val if val.present?
-  #   end
-  # end
-
-  # def parse_segments(path)
-  #   segments = [+""]
-  #   quoted = false
-  #   escaped = false
-
-  #   path
-  #     .split("")
-  #     .each do |char|
-  #       next_char_escaped = false
-  #       if !escaped && (char == '"')
-  #         quoted = !quoted
-  #       elsif !escaped && !quoted && (char == ".")
-  #         segments.append +""
-  #       elsif !escaped && (char == '\\')
-  #         next_char_escaped = true
-  #       else
-  #         segments.last << char
-  #       end
-  #       escaped = next_char_escaped
-  #     end
-
-  #   segments
-  # end
-
   def log(info)
     Rails.logger.warn("OAuth2 Debugging: #{info}")
   end
-
-
-
-  # def walk_path(fragment, segments, seg_index = 0)
-  #   first_seg = segments[seg_index]
-  #   return if first_seg.blank? || fragment.blank?
-  #   return nil unless fragment.is_a?(Hash) || fragment.is_a?(Array)
-  #   first_seg = segments[seg_index].scan(/([\d+])/).length > 0 ? first_seg.split("[")[0] : first_seg
-  #   if fragment.is_a?(Hash)
-  #     deref = fragment[first_seg] || fragment[first_seg.to_sym]
-  #   else
-  #     array_index = 0
-  #     if (seg_index > 0)
-  #       last_index = segments[seg_index - 1].scan(/([\d+])/).flatten() || [0]
-  #       array_index = last_index.length > 0 ? last_index[0].to_i : 0
-  #     end
-  #     if fragment.any? && fragment.length >= array_index - 1
-  #       deref = fragment[array_index][first_seg]
-  #     else
-  #       deref = nil
-  #     end
-  #   end
-
-  #   if (deref.blank? || seg_index == segments.size - 1)
-  #     deref
-  #   else
-  #     seg_index += 1
-  #     walk_path(deref, segments, seg_index)
-  #   end
-  # end
 
   def fetch_user_details(token)
     user_json_url = "https://api.#{@region}/api/v2/users/me?expand=organization"
@@ -173,9 +110,10 @@ class ::GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 	    	if email_user_object != nil
 	    		result.user = User.where(id: email_user_object.getvalue(0,0)).first
 	    	end
-
+        log(result.user)
 	    	if result.user != nil
 	    		result.email_valid = true
+          log(result.email_valid)
 	    	end
 	    end
 			####### END EMPLOYEE SYNC
