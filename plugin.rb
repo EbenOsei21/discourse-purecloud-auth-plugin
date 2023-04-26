@@ -76,11 +76,11 @@ auth_provider :title => 'Sign in with Genesys Cloud US East (mypurecloud.com)',
 #             :frame_width => FRAME_WIDTH,
 #             :frame_height => FRAME_HEIGHT
 
-# auth_provider :title => 'Sign in with Genesys Cloud APAC Northeast (Tokyo) (mypurecloud.jp)',
-#             :authenticator => GenesysCloudApne1Authenticator.new('apne1'),
-#             :message => LOGIN_MESSAGE,
-#             :frame_width => FRAME_WIDTH,
-#             :frame_height => FRAME_HEIGHT
+auth_provider :title => 'Sign in with Genesys Cloud APAC Northeast (Tokyo) (mypurecloud.jp)',
+            :authenticator => GenesysCloudApne1Authenticator.new('apne1'),
+            :message => LOGIN_MESSAGE,
+            :frame_width => FRAME_WIDTH,
+            :frame_height => FRAME_HEIGHT
 
 # auth_provider :title => 'Sign in with Genesys Cloud APAC Northeast (Seoul) (apne2.pure.cloud)',
 #             :authenticator => GenesysCloudApne2Authenticator.new('apne2'),
