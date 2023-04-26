@@ -1,8 +1,6 @@
-# require '../omniauth-genesys-cloud.rb'
-
 # GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
 
-GENESYS_PROD_ORG_ID = 8d6f6281-c096-4dab-b194-a6f1667d7dd4
+GENESYS_PROD_ORG_ID = "8d6f6281-c096-4dab-b194-a6f1667d7dd4"
 
 #https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
