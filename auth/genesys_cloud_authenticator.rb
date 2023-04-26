@@ -55,6 +55,8 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 
     log("user_json_response: #{user_json_response.inspect}")
 
+    puts user_json_response.inspect
+
     user_json = JSON.parse(user_json_response.body)
 
     result = {
@@ -64,7 +66,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
       :username => user_json["name"],
       :org_id => user_json["organization"]["id"]
     }
-
+    puts "sucessfully got user data"
     result
   end
 
