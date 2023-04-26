@@ -1,6 +1,4 @@
-# require_dependency 'auth/oauth2_authenticator.rb'
 
-#https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudSae1Authenticator < GenesysCloudAuthenticator
   def init_settings
       @region = "sae1.pure.cloud"
@@ -10,11 +8,15 @@ class GenesysCloudSae1Authenticator < GenesysCloudAuthenticator
       puts "Region: " + @region
   end
 
+  def name
+    @provider_name
+  end
+
   def register_middleware(omniauth)
   	init_settings
   	
     omniauth.provider :genesysCloud,
-                      name: @provider_name,
+                      name: name,
                       setup: lambda {|env|
                       	puts "Registering middleware for Genesys Cloud OAuth provider: " + @provider_name
                       	puts "Client ID: " + SiteSetting.genesys_cloud_client_id
@@ -24,7 +26,8 @@ class GenesysCloudSae1Authenticator < GenesysCloudAuthenticator
                         opts[:client_secret] = SiteSetting.genesys_cloud_client_secret
 
                         opts[:client_options] = {
-                          site: "https://login.#{@region}/"
+                          authorize_url: "https://login.#{@region}/oauth/authorize",
+                          token_url: "https://login.#{@region}/oauth/token"
                         }
                       }
   end

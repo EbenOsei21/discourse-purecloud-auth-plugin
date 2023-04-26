@@ -1,6 +1,6 @@
 # name: Genesys Cloud OAuth
 # about: Log in to Discourse using Genesys Cloud authentication
-# version: 0.4
+# version: 0.5
 # authors: Genesys
 # url: https://github.com/purecloudlabs/discourse-purecloud-auth-plugin
 

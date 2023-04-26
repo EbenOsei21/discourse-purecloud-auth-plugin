@@ -1,6 +1,4 @@
-# require_dependency 'auth/oauth2_authenticator.rb'
 
-#https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudApne1Authenticator < GenesysCloudAuthenticator
   def init_settings
       @region = "mypurecloud.jp"

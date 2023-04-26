@@ -4,23 +4,20 @@ GENESYS_PROD_ORG_ID = "8d6f6281-c096-4dab-b194-a6f1667d7dd4"
 
 #https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
-  @provider_name = "use1"
-  @region = "mypurecloud.com"
+  def init_settings
+    @region = "mypurecloud.com"
+    @provider_name = "use1"
+    puts "Initializing Genesys Cloud OAuth settings"
+    puts "Provider: " + @provider_name
+    puts "Region: " + @region
+  end
 
   def name
-    "use1"
+   @provider_name
   end
 
   def enabled?
     true
-  end
-
-  def init_settings
-      @region = "mypurecloud.com"
-      @provider_name = "use1"
-      puts "Initializing Genesys Cloud OAuth settings"
-      puts "Provider: " + @provider_name
-      puts "Region: " + @region
   end
 
   def register_middleware(omniauth)
@@ -49,6 +46,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   end
 
   def fetch_user_details(token)
+    log("fetch user got called")
     user_json_url = "https://api.#{@region}/api/v2/users/me?expand=organization"
     bearer_token = "Bearer #{token}"
     connection = Faraday.new { |f| f.adapter FinalDestination::FaradayAdapter }

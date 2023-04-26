@@ -1,6 +1,4 @@
-# require_dependency 'auth/oauth2_authenticator.rb'
 
-#https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudEuw2Authenticator < GenesysCloudAuthenticator
   def init_settings
       @region = "euw2.pure.cloud"
@@ -10,6 +8,10 @@ class GenesysCloudEuw2Authenticator < GenesysCloudAuthenticator
       puts "Region: " + @region
   end
 
+  def name
+    @provider_name
+  end
+  
   def register_middleware(omniauth)
   	init_settings
   	
@@ -24,7 +26,8 @@ class GenesysCloudEuw2Authenticator < GenesysCloudAuthenticator
                         opts[:client_secret] = SiteSetting.genesys_cloud_client_secret
 
                         opts[:client_options] = {
-                          site: "https://login.#{@region}/"
+                          authorize_url: "https://login.#{@region}/oauth/authorize",
+                          token_url: "https://login.#{@region}/oauth/token"
                         }
                       }
   end

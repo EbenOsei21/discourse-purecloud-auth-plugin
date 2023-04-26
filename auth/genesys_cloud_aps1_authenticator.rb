@@ -1,6 +1,4 @@
-# require_dependency 'auth/oauth2_authenticator.rb'
 
-#https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudAps1Authenticator < GenesysCloudAuthenticator
   def init_settings
       @region = "aps1.pure.cloud"
@@ -18,7 +16,7 @@ class GenesysCloudAps1Authenticator < GenesysCloudAuthenticator
   	init_settings
   	
     omniauth.provider :genesysCloud,
-                      name: @provider_name,
+                      name: name,
                       setup: lambda {|env|
                       	puts "Registering middleware for Genesys Cloud OAuth provider: " + @provider_name
                       	puts "Client ID: " + SiteSetting.genesys_cloud_client_id
