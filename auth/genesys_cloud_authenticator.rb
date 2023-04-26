@@ -1,6 +1,6 @@
-GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
+##GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
 
-# GENESYS_PROD_ORG_ID = "8d6f6281-c096-4dab-b194-a6f1667d7dd4"
+GENESYS_PROD_ORG_ID = "8d6f6281-c096-4dab-b194-a6f1667d7dd4"
 
 #https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
@@ -101,7 +101,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 	    #Special logic for the prod genesys org
 	    if(result.extra_data[:purecloud_org_id] == GENESYS_PROD_ORG_ID)
 	    	query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
-	    	email_user_object = ActiveRecord::Base.exec_sql(query)
+	    	email_user_object = ActiveRecord::Base.connection.exec_query(query)
 
 	    	if email_user_object != nil
 	    		result.user = User.where(id: email_user_object.getvalue(0,0)).first
