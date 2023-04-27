@@ -110,7 +110,9 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         puts email_user_object
         log(email_user_object)
 	    	if email_user_object != nil
-	    		result.user = User.where(id: email_user_object.getvalue(0,0)).first
+          puts "User Id from database:"
+          puts email_user_object[:user_id]
+	    		result.user = User.where(id: email_user_object[:user_id]).first
 	    	end
         puts result.user
         log(result.user)
