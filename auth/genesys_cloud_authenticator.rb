@@ -92,6 +92,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 
 	    current_info = ::PluginStore.get(@provider_name, "#{@provider_name}_user_#{user_details[:user_id]}")
 	    if current_info
+        puts "plugin store worked"
 	      result.user = User.where(id: current_info[:user_id]).first
 	    end
       puts result.user
@@ -112,8 +113,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         puts exam
       
 	    	if email_user_object != nil
-          puts "User Id from database:"
-          puts email_user_object["user_id"]
 	    		result.user = User.where(id: email_user_object["user_id"]).first
 	    	end
         puts result.user
