@@ -107,7 +107,9 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         puts "Sync happend"
 	    	query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
 	    	email_user_object = ActiveRecord::Base.connection.exec_query(query)
-        puts email_user_object
+        puts email_user_object.to_ar
+        exam = email_user_object.to_ar
+        puts exam[0]
         log(email_user_object)
 	    	if email_user_object != nil
           puts "User Id from database:"
