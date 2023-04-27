@@ -46,17 +46,12 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   end
 
   def fetch_user_details(token)
-    log("fetch user got called")
     puts "fetch user happend"
     user_json_url = "https://api.#{@region}/api/v2/users/me?expand=organization"
     bearer_token = "Bearer #{token}"
     connection = Faraday.new { |f| f.adapter FinalDestination::FaradayAdapter }
     headers = { "Authorization" => bearer_token, "Accept" => "application/json" }
     user_json_response = connection.run_request(:get, user_json_url, nil, headers)
-
-    log("user_json_response: #{user_json_response.inspect}")
-
-    puts user_json_response.inspect
 
     user_json = JSON.parse(user_json_response.body)
 
@@ -92,11 +87,9 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 
 	    current_info = ::PluginStore.get(@provider_name, "#{@provider_name}_user_#{user_details[:user_id]}")
 	    if current_info
-        puts "plugin store worked"
 	      result.user = User.where(id: current_info[:user_id]).first
 	    end
-      puts result.user
-      log(result.user)
+      
 	    result.extra_data = {
         purecloud_user_id: user_details[:user_id],
         purecloud_org_id: user_details[:org_id]
@@ -109,18 +102,12 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 	    	query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
 	    	email_user_object = ActiveRecord::Base.connection.exec_query(query)
         exam = email_user_object.to_ary
-        puts exam[0]
-        puts exam
-
-        puts email_user_object[0]["user_id"]
       
 	    	if email_user_object != nil
 	    		result.user = User.where(id: email_user_object[0]["user_id"]).first
 	    	end
-        puts result.user
-        log(result.user)
+
 	    	if result.user != nil
-          puts "email is valid"
 	    		result.email_valid = true
 	    	end
 	    end
