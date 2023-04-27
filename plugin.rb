@@ -23,7 +23,7 @@ require_relative 'omniauth-genesys-cloud.rb'
 puts 'Genesys Cloud - plugin loaded'
 
 FRAME_WIDTH = 600
-FRAME_HEIGHT = 520
+FRAME_HEIGHT = 400
 LOGIN_MESSAGE = 'Authorizing with Genesys Cloud (make sure pop up blockers are not enabled)'
 
 puts 'Genesys Cloud - Registering AuthProviders'
