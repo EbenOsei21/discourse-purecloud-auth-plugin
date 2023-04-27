@@ -111,9 +111,11 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         exam = email_user_object.to_ary
         puts exam[0]
         puts exam
+
+        puts email_user_object[0]
       
 	    	if email_user_object != nil
-	    		result.user = User.where(id: email_user_object["user_id"]).first
+	    		result.user = User.where(id: email_user_object[0]).first
 	    	end
         puts result.user
         log(result.user)
