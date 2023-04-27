@@ -120,8 +120,8 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         puts result.user
         log(result.user)
 	    	if result.user != nil
+          puts "email is valid"
 	    		result.email_valid = true
-          log(result.email_valid)
 	    	end
 	    end
 			####### END EMPLOYEE SYNC
