@@ -101,7 +101,9 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         puts "Sync happend"
 	    	query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
 	    	email_user_object = ActiveRecord::Base.connection.exec_query(query)
-      
+        puts email_user_object
+
+        puts email_user_object[0]
 	    	if email_user_object != nil
 	    		result.user = User.where(id: email_user_object[0]["user_id"]).first
 	    	end
@@ -121,6 +123,9 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   end
 
   def after_create_account(user, auth)
+    result = Auth::Result.new
+    result.email_valid = false
     ::PluginStore.set(@provider_name, "#{@provider_name}_user_#{auth[:extra_data][:purecloud_user_id]}", {user_id: user.id })
+    return result
   end
 end
