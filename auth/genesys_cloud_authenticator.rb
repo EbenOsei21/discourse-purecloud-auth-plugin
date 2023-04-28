@@ -89,7 +89,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 	    if current_info
 	      result.user = User.where(id: current_info[:user_id]).first
 	    end
-      
+
 	    result.extra_data = {
         purecloud_user_id: user_details[:user_id],
         purecloud_org_id: user_details[:org_id]
@@ -101,7 +101,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         puts "Sync happend"
 	    	query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
 	    	email_user_object = ActiveRecord::Base.connection.exec_query(query)
-        exam = email_user_object.to_ary
       
 	    	if email_user_object != nil
 	    		result.user = User.where(id: email_user_object[0]["user_id"]).first
