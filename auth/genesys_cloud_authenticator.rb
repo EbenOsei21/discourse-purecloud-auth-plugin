@@ -41,10 +41,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
                       }
   end
 
-  def log(info)
-    Rails.logger.warn("OAuth2 Debugging: #{info}")
-  end
-
   def fetch_user_details(token)
     user_json_url = "https://api.#{@region}/api/v2/users/me?expand=organization"
     bearer_token = "Bearer #{token}"
@@ -63,11 +59,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
     }
     puts "sucessfully got user data"
     result
-  end
-
-  def basic_auth_header
-    "Basic " +
-      Base64.strict_encode64("#{SiteSetting.genesys_cloud_client_id}:#{SiteSetting.genesys_cloud_client_secret}")
   end
 
   def after_authenticate(auth)
@@ -113,6 +104,5 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 
   def after_create_account(user, auth)
     ::PluginStore.set(@provider_name, "#{@provider_name}_user_#{auth[:extra_data][:purecloud_user_id]}", {user_id: user.id })
-    return result
   end
 end
