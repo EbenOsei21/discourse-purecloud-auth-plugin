@@ -87,6 +87,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 	    current_info = ::PluginStore.get(@provider_name, "#{@provider_name}_user_#{user_details[:user_id]}")
 	    if current_info
 	      result.user = User.where(id: current_info[:user_id]).first
+        puts "user exits"
         puts result.user
 	    end
 
