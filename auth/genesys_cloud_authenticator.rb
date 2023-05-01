@@ -105,10 +105,14 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 
         puts email_user_object[0]
 	    	if email_user_object != nil
-	    		result.user = User.where(id: email_user_object[0]["user_id"]).first
+	    		#result.user = User.where(id: email_user_object[0]["user_id"]).first
+          result.user = User.find_by_email(result.email.downcase)
 	    	end
 
+        puts result.user
+
 	    	if result.user != nil
+          puts "user not nil"
 	    		result.email_valid = true
 	    	end
 	    end
