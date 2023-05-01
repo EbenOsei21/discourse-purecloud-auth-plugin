@@ -46,7 +46,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   end
 
   def fetch_user_details(token)
-    puts "fetch user happend"
     user_json_url = "https://api.#{@region}/api/v2/users/me?expand=organization"
     bearer_token = "Bearer #{token}"
     connection = Faraday.new { |f| f.adapter FinalDestination::FaradayAdapter }
@@ -88,6 +87,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 	    current_info = ::PluginStore.get(@provider_name, "#{@provider_name}_user_#{user_details[:user_id]}")
 	    if current_info
 	      result.user = User.where(id: current_info[:user_id]).first
+        puts result.user
 	    end
 
 	    result.extra_data = {
@@ -98,23 +98,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 			####### BEGIN EMPLOYEE SYNC
 	    #Special logic for the prod genesys org
 	    if(result.extra_data[:purecloud_org_id] == GENESYS_PROD_ORG_ID)
-        # puts "Sync happend"
-	    	# query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
-	    	# email_user_object = ActiveRecord::Base.connection.exec_query(query)
-        # puts email_user_object
-
-        # puts email_user_object[0]
-	    	# if email_user_object != nil
-	    	# 	#result.user = User.where(id: email_user_object[0]["user_id"]).first
-        #   result.user = User.find_by_email(result.email.downcase)
-	    	# end
-
-        # puts result.user
-
-	    	# if result.user != nil
-        #   puts "user not nil"
-	    	# 	result.email_valid = true
-	    	# end
         result.email_valid = true
 	    end
 			####### END EMPLOYEE SYNC
@@ -128,8 +111,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   end
 
   def after_create_account(user, auth)
-    result = Auth::Result.new
-    result.email_valid = false
     ::PluginStore.set(@provider_name, "#{@provider_name}_user_#{auth[:extra_data][:purecloud_user_id]}", {user_id: user.id })
     return result
   end
