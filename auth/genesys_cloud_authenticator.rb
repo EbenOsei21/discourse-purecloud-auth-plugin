@@ -98,23 +98,24 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 			####### BEGIN EMPLOYEE SYNC
 	    #Special logic for the prod genesys org
 	    if(result.extra_data[:purecloud_org_id] == GENESYS_PROD_ORG_ID)
-        puts "Sync happend"
-	    	query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
-	    	email_user_object = ActiveRecord::Base.connection.exec_query(query)
-        puts email_user_object
+        # puts "Sync happend"
+	    	# query = "SELECT user_id FROM email_tokens WHERE email='" + result.email.downcase + "' ORDER BY id DESC LIMIT 1"
+	    	# email_user_object = ActiveRecord::Base.connection.exec_query(query)
+        # puts email_user_object
 
-        puts email_user_object[0]
-	    	if email_user_object != nil
-	    		#result.user = User.where(id: email_user_object[0]["user_id"]).first
-          result.user = User.find_by_email(result.email.downcase)
-	    	end
+        # puts email_user_object[0]
+	    	# if email_user_object != nil
+	    	# 	#result.user = User.where(id: email_user_object[0]["user_id"]).first
+        #   result.user = User.find_by_email(result.email.downcase)
+	    	# end
 
-        puts result.user
+        # puts result.user
 
-	    	if result.user != nil
-          puts "user not nil"
-	    		result.email_valid = true
-	    	end
+	    	# if result.user != nil
+        #   puts "user not nil"
+	    	# 	result.email_valid = true
+	    	# end
+        result.email_valid = true
 	    end
 			####### END EMPLOYEE SYNC
 	  rescue => e
