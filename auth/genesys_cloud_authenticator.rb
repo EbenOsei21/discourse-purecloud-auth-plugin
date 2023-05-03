@@ -74,7 +74,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
     association =
       UserAssociatedAccount.find_or_initialize_by(
         provider_name: auth[:provider],
-        provider_uid: auth[:uid],
+        provider_uid: @provider_name,
     )
 
     if existing_account && (association.user.nil? || existing_account.id != association.user_id)
