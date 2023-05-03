@@ -70,13 +70,16 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
     User.find_by_email(email)
   end
 
-  def after_authenticate(auth)
-
+  def after_authenticate(auth, existing_account: nil)
     association =
       UserAssociatedAccount.find_or_initialize_by(
         provider_name: auth[:provider],
         provider_uid: auth[:uid],
     )
+
+    if existing_account && (association.user.nil? || existing_account.id != association.user_id)
+      association.user = existing_account
+    end
 
     if match_by_email && association.user.nil? && (user = find_user_by_email(auth))
       UserAssociatedAccount.where(user: user, provider_name: auth[:provider]).destroy_all # Destroy existing associations for the new user
@@ -91,7 +94,6 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 
     # Save to the DB. Do this even if we don't have a user - it might be linked up later in after_create_account
     association.save!
-
 
 	  result = Auth::Result.new
   	
