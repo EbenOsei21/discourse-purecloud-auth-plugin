@@ -86,7 +86,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
 	    }
 
       #Skip email verifcation for authenticated prod genesys org users
-	    if(result.extra_data[:purecloud_org_id] == GENESYS_PROD_ORG_ID)
+	    if(result.extra_data[:purecloud_org_id] == GENESYS_PROD_ORG_ID || result.extra_data[:purecloud_org_id] == "845c9858-a978-4313-b8ed-2a85b289cffb" )
         result.email_valid = true
 	    end
 
