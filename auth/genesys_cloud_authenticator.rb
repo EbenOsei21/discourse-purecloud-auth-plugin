@@ -60,8 +60,12 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
     result
   end
 
-  def after_authenticate(auth)
+  def after_authenticate(auth,existing_account:nil)
 	  result = Auth::Result.new
+
+    if existing_account 
+      result.user = existing_account
+    end   
   	
   	begin
 	    token = auth['credentials']['token']
