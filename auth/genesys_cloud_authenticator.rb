@@ -104,6 +104,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   end
 
   def after_create_account(user, auth)
+    puts "I was here some"
     ::PluginStore.set(@provider_name, "#{@provider_name}_user_#{auth[:extra_data][:purecloud_user_id]}", {user_id: user.id })
   end
 end
