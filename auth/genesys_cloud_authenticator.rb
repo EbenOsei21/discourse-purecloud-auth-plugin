@@ -1,6 +1,5 @@
-##GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
+GENESYS_PROD_ORG_ID = "845c9858-a978-4313-b8ed-2a85b289cffb"
 
-GENESYS_PROD_ORG_ID = "8d6f6281-c096-4dab-b194-a6f1667d7dd4"
 #https://github.com/discourse/discourse-oauth2-basic
 class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   def init_settings
@@ -9,6 +8,14 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
     puts "Initializing Genesys Cloud OAuth settings"
     puts "Provider: " + @provider_name
     puts "Region: " + @region
+  end
+
+  def can_connect_existing_user?
+    true
+  end
+
+  def can_revoke?
+    true
   end
 
   def name
@@ -85,13 +92,14 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
         purecloud_org_id: user_details[:org_id]
 	    }
 
+      #Link account with a different SSO provider
       if existing_account 
         result.user = existing_account
         ::PluginStore.set(@provider_name, "#{@provider_name}_user_#{result.extra_data[:purecloud_user_id]}", {user_id: existing_account.id })
       end
   
       #Skip email verifcation for authenticated prod genesys org users
-	    if(result.extra_data[:purecloud_org_id] == GENESYS_PROD_ORG_ID || result.extra_data[:purecloud_org_id] == "845c9858-a978-4313-b8ed-2a85b289cffb" )
+	    if(result.extra_data[:purecloud_org_id] == GENESYS_PROD_ORG_ID)
         result.email_valid = true
 	    end
 
@@ -105,6 +113,7 @@ class GenesysCloudAuthenticator < Auth::ManagedAuthenticator
   end
 
   def after_create_account(user, auth)
+    #Save user id
     ::PluginStore.set(@provider_name, "#{@provider_name}_user_#{auth[:extra_data][:purecloud_user_id]}", {user_id: user.id })
   end
 end
